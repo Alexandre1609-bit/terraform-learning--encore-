@@ -21,21 +21,9 @@ resource "aws_subnet" "subnet" {
   cidr_block = "172.10.0.0/28"
 }
 
-resource "aws_vpc_ipam_pool" "ipam_test" {
-  address_family = "ipv4"
-  ipam_scope_id  = aws_instance.test.id
-  locale         = data.aws_region.current.region
-}
-
-resource "aws_vpc_ipam_pool_cidr" "test_cidr" {
-  ipam_pool_id = aws_vpc_ipam_pool.ipam_test.id
-  cidr         = "172.10.0.0/16"
-}
-
 resource "aws_vpc" "test_vpc" {
-  cidr_block          = "172.10.0.0/28"
-  ipv4_netmask_length = 24
-  depends_on          = [aws_vpc_ipam_pool_cidr.test_cidr]
+  cidr_block = "172.10.0.0/28"
+  depends_on = [aws_vpc_ipam_pool_cidr.test_cidr]
 }
 
 resource "aws_instance" "test" {
@@ -63,7 +51,7 @@ resource "aws_security_group" "allow_http" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
   security_group_id = aws_security_group.allow_http.id
-  cidr_ipv4         = ".0.0.0.0/0"
+  cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
@@ -73,4 +61,30 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.allow_http.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
+}
+
+resource "aws_internet_gateway" "vpc_internet_gateway" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  tags = {
+    Name = "Ec2_vpc_int_gtw"
+  }
+}
+
+resource "aws_route_table" "ec1_route_table" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.vpc_internet_gateway.id
+  }
+
+  tags = {
+    Name = "ec2_route_table"
+  }
+}
+
+resource "aws_route_table_association" "assoc" {
+  subnet_id      = aws_subnet.subnet.id
+  route_table_id = aws_route_table.ec1_route_table.id
 }
