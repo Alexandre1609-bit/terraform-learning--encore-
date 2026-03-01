@@ -18,19 +18,18 @@ data "aws_ami" "ubuntu" {
 
 resource "aws_subnet" "subnet" {
   vpc_id     = aws_vpc.test_vpc.id
-  cidr_block = "172.10.0.0/28"
+  cidr_block = var.subnet_cidr_block
 }
 
 resource "aws_vpc" "test_vpc" {
-  cidr_block = "172.10.0.0/28"
-  depends_on = [aws_vpc_ipam_pool_cidr.test_cidr]
+  cidr_block = var.vpc_cidr
 }
 
 resource "aws_instance" "test" {
-  ami             = data.aws_ami.ubuntu.id
-  instance_type   = "t3.micro"
-  subnet_id       = aws_subnet.subnet.id
-  security_groups = [aws_security_group.allow_http]
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.subnet.id
+  vpc_security_group_ids = [aws_security_group.allow_http]
 
 
   tags = {
