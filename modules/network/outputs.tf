@@ -10,5 +10,5 @@ output "subnet_id" {
 
 output "security_group_id" {
   description = "get security group id"
-  value       = aws_security_group.sec_group
+  value       = aws_security_group.sec_group.id
 }

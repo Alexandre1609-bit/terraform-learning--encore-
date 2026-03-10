@@ -9,9 +9,11 @@ variable "project_name" {
 }
 
 variable "subnet_id" {
-  type = string
+  description = "Get subenet id from network module"
+  type        = string
 }
 
 variable "security_group_id" {
-  type = string
+  description = "get security group id from network module"
+  type        = string
 }

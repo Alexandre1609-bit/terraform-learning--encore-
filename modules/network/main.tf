@@ -1,11 +1,19 @@
 resource "aws_vpc" "test_vpc" {
   cidr_block = var.vpc_cidr
+
+  tags = {
+    Name = "fist_vpc"
+  }
 }
 
 
 resource "aws_subnet" "subnet" {
   vpc_id     = aws_vpc.test_vpc.id
   cidr_block = var.subnet_cidr_block
+
+  tags = {
+    Name = "ec2_vpc_subnet"
+  }
 }
 
 resource "aws_internet_gateway" "vpc_internet_gateway" {
