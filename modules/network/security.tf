@@ -1,10 +1,10 @@
-resource "aws_security_group" "allow_http" {
-  name        = "allow_htpp"
-  description = "Allow http inbound and outbound traffic"
+resource "aws_security_group" "sec_group" {
+  name        = "sec_group"
+  description = "Add security group with inbound and outbound rules"
   vpc_id      = aws_vpc.test_vpc.id
 
   tags = {
-    Name = "allow_http"
+    Name = "Add sec_group"
   }
 }
 
