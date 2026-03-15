@@ -11,7 +11,11 @@ data "aws_ami" "ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
+  tags = {
+    Name        = "ubuntu ami"
+    Environment = "dev"
+    Owner       = "alexandre"
+  }
 
 }
 resource "aws_instance" "test" {
@@ -22,7 +26,9 @@ resource "aws_instance" "test" {
   associate_public_ip_address = true
 
   tags = {
-    Name = var.project_name
+    Name        = var.project_name
+    Environment = "dev"
+    Owner       = "alexandre"
 
   }
 }

@@ -2,8 +2,11 @@ resource "aws_vpc" "test_vpc" {
   cidr_block = var.vpc_cidr
 
   tags = {
-    Name = "fist_vpc"
+    Name        = "fist_vpc"
+    Environment = "dev"
+    Owner       = "alexandre"
   }
+
 }
 
 
@@ -12,7 +15,9 @@ resource "aws_subnet" "subnet" {
   cidr_block = var.subnet_cidr_block
 
   tags = {
-    Name = "ec2_vpc_subnet"
+    Name        = "ec2_vpc_subnet"
+    Environment = "dev"
+    Owner       = "alexandre"
   }
 }
 
@@ -20,7 +25,9 @@ resource "aws_internet_gateway" "vpc_internet_gateway" {
   vpc_id = aws_vpc.test_vpc.id
 
   tags = {
-    Name = "Ec2_vpc_int_gtw"
+    Name        = "Ec2_vpc_int_gtw"
+    Environment = "dev"
+    Owner       = "alexandre"
   }
 }
 
@@ -28,7 +35,9 @@ resource "aws_route_table" "ec1_route_table" {
   vpc_id = aws_vpc.test_vpc.id
 
   tags = {
-    Name = "ec2_route_table"
+    Name        = "ec2_route_table"
+    Environment = "dev"
+    Owner       = "alexandre"
   }
 }
 
@@ -42,4 +51,5 @@ resource "aws_route" "iGW" {
 resource "aws_route_table_association" "assoc" {
   subnet_id      = aws_subnet.subnet.id
   route_table_id = aws_route_table.ec1_route_table.id
+
 }

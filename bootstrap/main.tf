@@ -1,8 +1,12 @@
+data "aws_region" "current" {}
+
 resource "aws_s3_bucket" "my_first_bucket" {
   bucket        = "my-first-bucket-test-1609"
-  force_destroy = "true"
+  force_destroy = true
   tags = {
-    Name = "My bucket"
+    Name        = "s3-bucket-terraform-state"
+    Environment = "dev"
+    Owner       = "alexandre"
 
   }
 }
@@ -12,6 +16,7 @@ resource "aws_s3_bucket_versioning" "bucket_version" {
   versioning_configuration {
     status = "Enabled"
   }
+
 }
 
 resource "aws_dynamodb_table" "terraform_lock" {
@@ -22,5 +27,11 @@ resource "aws_dynamodb_table" "terraform_lock" {
   attribute {
     name = "LockID"
     type = "S"
+  }
+  tags = {
+    Name        = "dynamo-db-lock"
+    Environment = "dev"
+    Owner       = "alexandre"
+
   }
 }

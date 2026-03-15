@@ -4,7 +4,9 @@ resource "aws_security_group" "sec_group" {
   vpc_id      = aws_vpc.test_vpc.id
 
   tags = {
-    Name = "Add sec_group"
+    Name        = "sec_group"
+    Environment = "dev"
+    Owner       = "alexandre"
   }
 }
 
@@ -14,11 +16,21 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
+  tags = {
+    Name        = "vpc-ingress-rules"
+    Environment = "dev"
+    Owner       = "alexandre"
+  }
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.sec_group.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1"
+  tags = {
+    Name        = "vpc-egress-rules"
+    Environment = "dev"
+    Owner       = "alexandre"
+  }
 }
 
