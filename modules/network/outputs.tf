@@ -5,7 +5,7 @@ output "vpc_id" {
 
 output "subnet_id" {
   description = "subnet id"
-  value       = aws_subnet.subnet.id
+  value       = { for k, v in aws_subnet.subnet : k => v.id if local.subnet_config[k].type == "public" }
 }
 
 output "security_group_id" {
