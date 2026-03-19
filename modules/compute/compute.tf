@@ -19,6 +19,7 @@ data "aws_ami" "ubuntu" {
 
 }
 resource "aws_instance" "test" {
+  count                       = var.number_of_instance
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id
@@ -26,7 +27,7 @@ resource "aws_instance" "test" {
   associate_public_ip_address = true
 
   tags = {
-    Name        = var.project_name
+    Name        = "${var.project_name}-${count.index}"
     Environment = "dev"
     Owner       = "alexandre"
 

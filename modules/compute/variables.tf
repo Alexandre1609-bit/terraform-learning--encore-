@@ -17,3 +17,8 @@ variable "security_group_id" {
   description = "get security group id from network module"
   type        = string
 }
+
+variable "number_of_instance" {
+  description = "set the number of instance one want to create"
+  type        = number
+}
