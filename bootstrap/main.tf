@@ -2,7 +2,11 @@ data "aws_region" "current" {}
 
 resource "aws_s3_bucket" "my_first_bucket" {
   bucket        = "my-first-bucket-test-1609"
-  force_destroy = true
+  force_destroy = true //Je conserve cela pour mes lab, plus pratique
+
+  /*lifecycle {
+    prevent_destroy = true
+  }*/
   tags = {
     Name        = "s3-bucket-terraform-state"
     Environment = "dev"

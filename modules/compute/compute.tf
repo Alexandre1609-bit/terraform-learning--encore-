@@ -32,6 +32,11 @@ resource "aws_instance" "test" {
     Owner       = "alexandre"
 
   }
+
+  lifecycle {
+    ignore_changes        = [tags["Name"]]
+    create_before_destroy = true
+  }
 }
 
 
