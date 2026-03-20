@@ -6,6 +6,6 @@ output "ec2_instance_id" {
 
 output "ec2_instance_private_ip" {
   description = "ec2 instance's private ip"
-  value       = aws_instance.test.private_ip
+  value       = aws_instance.test[*].private_ip
   sensitive   = true
 }
