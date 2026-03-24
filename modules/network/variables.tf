@@ -5,7 +5,7 @@ variable "vpc_cidr" {
 
 variable "ingress_rules" {
   description = "Ingress port to use in security group"
-  type = list(object({
+  type = map(object({
     from_port   = number
     to_port     = number
     protocol    = string
@@ -16,7 +16,7 @@ variable "ingress_rules" {
 
 variable "egress_rules" {
   description = "Ingress port to use in security group"
-  type = list(object({
+  type = map(object({
     from_port   = number
     to_port     = number
     protocol    = string
