@@ -1,6 +1,8 @@
 module "network" {
-  source   = "./modules/network"
-  vpc_cidr = var.vpc_cidr
+  source        = "./modules/network"
+  vpc_cidr      = var.vpc_cidr
+  ingress_rules = var.ingress_rules
+  egress_rules  = var.egress_rules
 
 }
 
