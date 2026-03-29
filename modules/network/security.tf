@@ -3,32 +3,33 @@ resource "aws_security_group" "sec_group" {
   description = "Add security group with inbound and outbound rules"
   vpc_id      = aws_vpc.test_vpc.id
 
+
+  dynamic "ingress" {
+    for_each = var.ingress_rules
+
+    content {
+      from_port   = ingress.value.from_port
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+      description = "${ingress.key}: ${ingress.value.description}"
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.egress_rules
+
+    content {
+      from_port   = egress.value.from_port
+      to_port     = egress.value.to_port
+      protocol    = egress.value.protocol
+      cidr_blocks = egress.value.cidr_blocks
+      description = "${egress.key}: ${egress.value.description}"
+    }
+  }
+
   tags = {
     Name        = "sec_group"
-    Environment = "dev"
-    Owner       = "alexandre"
-  }
-}
-
-resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
-  security_group_id = aws_security_group.sec_group.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 80
-  ip_protocol       = "tcp"
-  to_port           = 80
-  tags = {
-    Name        = "vpc-ingress-rules"
-    Environment = "dev"
-    Owner       = "alexandre"
-  }
-}
-
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
-  security_group_id = aws_security_group.sec_group.id
-  cidr_ipv4         = "0.0.0.0/0"
-  ip_protocol       = "-1"
-  tags = {
-    Name        = "vpc-egress-rules"
     Environment = "dev"
     Owner       = "alexandre"
   }
