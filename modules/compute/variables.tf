@@ -26,5 +26,8 @@ variable "number_of_instance" {
     condition     = var.number_of_instance > 0 && var.number_of_instance <= 10
     error_message = "please choose a number between 1 and 10"
   }
+}
 
+variable "iam_instance_profile" {
+  type = string
 }
