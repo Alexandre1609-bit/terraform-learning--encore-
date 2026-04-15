@@ -12,7 +12,12 @@ module "compute" {
   project_name       = var.project_name
   instance_type      = var.instance_type
 
-  subnet_id         = module.network.subnet_id["public_1"]
-  security_group_id = module.network.security_group_id
+  subnet_id            = module.network.subnet_id["public_1"]
+  security_group_id    = module.network.security_group_id
+  iam_instance_profile = module.iam_policies.instance_profil_name
 
+}
+
+module "iam_policies" {
+  source = "./modules/iam_policies"
 }
