@@ -15,7 +15,7 @@ variable "ingress_rules" {
 }
 
 variable "egress_rules" {
-  description = "Ingress port to use in security group"
+  description = "Egress port to use in security group"
   type = map(object({
     from_port   = number
     to_port     = number

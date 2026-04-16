@@ -11,13 +11,8 @@ data "aws_ami" "ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  tags = {
-    Name        = "ubuntu ami"
-    Environment = "dev"
-    Owner       = "alexandre"
-  }
-
 }
+
 resource "aws_instance" "test" {
   count                       = var.number_of_instance
   ami                         = data.aws_ami.ubuntu.id

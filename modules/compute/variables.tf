@@ -29,5 +29,6 @@ variable "number_of_instance" {
 }
 
 variable "iam_instance_profile" {
-  type = string
+  description = "Get iam instance profile name"
+  type        = string
 }
