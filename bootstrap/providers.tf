@@ -6,8 +6,16 @@ terraform {
       version = "~> 5.0"
     }
   }
+
+  backend "s3" {
+    bucket = "my-first-bucket-test-1609"
+    key    = "solo-tf/bootstrap/terraform.tfstate"
+    region = "eu-west-3"
+  }
 }
 
 provider "aws" {
   region = "eu-west-3"
 }
+
+

@@ -1,3 +1,12 @@
+data "terraform_remote_state" "bootstrap" {
+  backend = "s3"
+  config = {
+    bucket = "my-first-bucket-test-1609"
+    key    = "solo-tf/bootstrap/terraform.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 resource "aws_iam_instance_profile" "iam_instance_profile_ec2_s3" {
   name = "test-profil"
   role = aws_iam_role.ec2_s3_read_role.name
@@ -45,8 +54,8 @@ data "aws_iam_policy_document" "s3_bucket_read_policy_doc" {
     effect  = "Allow"
     actions = ["s3:GetObject", "s3:ListBucket"]
     resources = [
-      "arn:aws:s3:::my-first-bucket-test-1609",
-      "arn:aws:s3:::my-first-bucket-test-1609/*"
+      data.terraform_remote_state.bootstrap.outputs.bucket_arn,
+      "${data.terraform_remote_state.bootstrap.outputs.bucket_arn}/*"
     ]
 
   }

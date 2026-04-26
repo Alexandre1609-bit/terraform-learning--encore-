@@ -15,7 +15,7 @@ module "compute" {
   subnet_id            = module.network.subnet_id["public_1"]
   security_group_id    = module.network.security_group_id
   iam_instance_profile = module.iam_policies.instance_profil_name
-
+  depends_on           = [module.iam_policies]
 }
 
 module "iam_policies" {
