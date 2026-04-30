@@ -21,6 +21,10 @@ resource "aws_instance" "test" {
   vpc_security_group_ids      = [var.security_group_id]
   associate_public_ip_address = true
   iam_instance_profile        = var.iam_instance_profile
+  user_data = templatefile("${path.module}/templates/user_data.sh.tpl", {
+    project_name   = var.project_name
+    instance_index = count.index
+  })
   tags = {
     Name        = "${var.project_name}-${count.index}"
     Environment = "dev"
