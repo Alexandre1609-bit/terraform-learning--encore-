@@ -33,7 +33,7 @@ resource "aws_instance" "test" {
   }
 
   lifecycle {
-    ignore_changes        = [tags["Name"]]
+    ignore_changes        = [tags["Name"], user_data]
     create_before_destroy = true
   }
 }
